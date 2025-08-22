@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deepfake Image Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #7b2cbf, #5a189a);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        nav {
+            background-color: #3c096c;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 3rem auto;
+            background-color: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #5a189a;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 2px dashed #aaa;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        button {
+            background-color: #7b2cbf;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background-color: #5a189a;
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .confidence-bar {
+            margin-top: 0.5rem;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background-color: #7b2cbf;
+            width: 0%;
+            color: white;
+            line-height: 20px;
+            text-align: center;
+            transition: width 1s ease-in-out;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        img#preview {
+            max-width: 100%;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btns button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>Deepfake Detection App</nav>
+
+    <div class="container">
+        <h2>Upload an Image</h2>
+        <form id="upload-form" method="POST" action="/predict" enctype="multipart/form-data">
+            <input type="file" name="image" id="imageInput" accept="image/*" required>
+            <img id="preview" src="#" alt="Preview" style="display: none;">
+            <div class="btns">
+                <button type="submit">Detect</button>
+                <button type="button" onclick="resetForm()">Reset</button>
+            </div>
+        </form>
+
+        <div class="result" id="result" style="display: none;">
+            <h3 id="predictionText"></h3>
+            <div class="confidence-bar">
+                <div id="confidenceFill" class="confidence-fill">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">© Deepfake Detection App 2025</div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+
+        imageInput.onchange = evt => {
+            const [file] = imageInput.files;
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        };
+
+        function resetForm() {
+            document.getElementById('upload-form').reset();
+            preview.style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+        }
+
+        // OPTIONAL: You can also handle the prediction result via JS if you want AJAX support later
+    </script>
+
+</body>
+</html>
